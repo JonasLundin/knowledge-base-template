@@ -1,0 +1,14 @@
+version: 1
+release: 0.0.0
+baseline: '2026-09-26'
+coverage_status: planned
+review_status: unverified
+total_concepts: 0
+by_category: {}
+by_type: {}
+gates:
+  law_articles:
+    pattern: 'law/*/articles/article-*'
+    expected: null
+    actual: 0
+    status: pending

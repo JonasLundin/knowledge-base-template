@@ -1,0 +1,40 @@
+# Bundle manifest read by tools/validate.py. Edit this first when creating a new knowledge base.
+manifest_version: 1
+okf_version: "0.2"
+slug: template
+name: Knowledge Base Template
+description: Template for regulatory and standards knowledge bases published as OKF bundles for Meerkat and MCP.
+extension_key: x-template
+categories:
+  - law
+  - requirement
+  - guidance
+  - standard
+  - role
+  - procedure
+  - authority
+  - jurisdiction
+  - timeline
+  - glossary
+sections:
+  - path: law
+    title: Law
+    description: Primary legal instruments, article by article, with annexes, secondary legislation and interacting law.
+  - path: obligations
+    title: Obligations
+    description: Role and lifecycle views of what the instrument requires.
+  - path: standards
+    title: Standards
+    description: Standards and specifications referenced by the instrument, as identifiers, lifecycle facts and links.
+  - path: guidance
+    title: Guidance
+    description: Official non-binding guidance from the responsible institutions and authorities.
+  - path: jurisdictions
+    title: Jurisdictions
+    description: National authorities, implementing measures and status per jurisdiction.
+  - path: timeline
+    title: Timeline
+    description: Entry into force, application and transition milestones.
+  - path: glossary
+    title: Glossary
+    description: Terms defined by the instrument.
