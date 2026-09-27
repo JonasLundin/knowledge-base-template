@@ -10,7 +10,7 @@ A bundle built from this template holds concise original summaries with provisio
 |---|---|
 | `kb.yaml` | Bundle manifest: slug, name, extension key (`x-<slug>`), allowed categories, top-level sections |
 | `wiki/` | The OKF bundle. `index.md` declares `okf_version`; every declared section has an `index.md` |
-| `tools/validate.py` | Manifest-driven validator: frontmatter, extension key, categories, sections, links, footnotes, coverage gates, source register |
+| `tools/validate.py` | Manifest-driven validator: frontmatter, extension key, categories, sections, links, footnotes, source register (unregistered ids, `used_by` drift, unused sources), coverage (`by_category`, `by_type`, gates with research-gap stubs), template-identical and near-identical bodies, repeated filler sentences, thin pages, quoted-string metadata, CITATION.cff, scaffold banners and README sections |
 | `tools/test_validate.py` | Unit tests for the validator |
 | `coverage.yaml` | Concept counts and coverage gates (`pattern`, `expected`, `actual`, `status`) |
 | `sources.yaml` | Register of every primary source and the concepts that use it |
@@ -43,6 +43,7 @@ python3 tools/validate.py wiki
 - A missing official source is recorded as a research gap, never filled by inference.
 - Superseded material is kept and marked `deprecated`, not deleted.
 - `coverage.yaml` and `sources.yaml` are updated in the same pull request as the concepts; the validator fails on drift.
+- A page that is not written yet carries `research_gap: true`; gates count only written pages toward `expected`, so a bundle cannot report `pass` on stubs.
 
 ## Use With Meerkat
 

@@ -46,9 +46,19 @@ The path relative to `wiki/`, without `.md`, is the concept ID. Do not add a sep
 
 Use footnote labels matching `sources[].id` for sourced body claims.
 
+## Research Gaps
+
+A page that exists but has not been written yet is a research gap, not a summary. Mark it with `research_gap: true` in the frontmatter, keep a short body that says what the page will cover and which source it needs, and leave `status: draft`. The validator counts flagged pages separately: a coverage gate reports `pass` only when the concepts that are **not** research gaps reach `expected`. A one-sentence body without the flag is reported as a thin page.
+
 ## Coverage And Sources
 
-`coverage.yaml` records the concept count, the count per category, and the coverage gates. Each gate names a glob `pattern` relative to `wiki/`, the `expected` number of concepts (or `null` until known), the `actual` count, and a `status` derived from them (`pending`, `partial`, `pass`, `fail`). `sources.yaml` lists every primary source with the concepts that use it. The validator checks both against the bundle; update them in the same pull request as the concepts.
+`coverage.yaml` records the concept count, the counts per `category` and per `type`, and the coverage gates. Each gate names a glob `pattern` relative to `wiki/`, the `expected` number of concepts (or `null` until known), the `actual` count of matching concepts, the number of those flagged `stubs` (research gaps, only when non-zero), and a `status` derived from `actual - stubs` against `expected` (`pending`, `partial`, `pass`, `fail`). `coverage_status: complete` requires every gate to pass and no research gaps.
+
+`sources.yaml` keeps `version`, `checked_at`, `total_sources` and one entry per primary source with `resource`, `title` and `used_by`. Every `sources[].id` used in a concept must be registered, `used_by` must list exactly the concepts that cite the source, and a registered source that no concept cites is reported. Update both files in the same pull request as the concepts; the validator fails on drift.
+
+## What The Validator Rejects
+
+Beyond frontmatter shape, `tools/validate.py` fails the build on: unregistered or drifting source ids; footnote definitions never referenced; two concepts in one directory with template-identical bodies; a prose sentence repeated across five or more pages (filler); `by_category` or `by_type` not matching the bundle; gate counts or statuses that do not follow from the pages; a `jurisdiction`, `authority_level` or `instrument_status` that is not a quoted string (YAML reads a bare `NO` as `false`); `CITATION.cff` with a `cff-version` other than 1.2.0 or a `version` unequal to `VERSION`; and, once concepts exist, a README or root index still carrying the scaffold banner or a README missing its Licence, NOTICE, CONTRIBUTING or not-legal-advice text. It warns on thin bodies, near-identical bodies, descriptions ending in an ellipsis, self-cancelling relative links, indexes that do not list their pages, registered sources without consumers, and a single `stale_after` shared by every concept.
 
 ## Pull Requests
 
